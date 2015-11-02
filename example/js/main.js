@@ -3,7 +3,7 @@
 
     var bowlingPlayground = document.querySelector('#bowling-playground'),
         createGame        = bowlingPlayground.querySelector('#new-game'),
-        commandBus        = 'http://localhost:8888/command-bus.php';
+        commandBus        = 'http://localhost:8888/command-bus.php',
         /**
          * creates a poll that isn't interval based, but waits for the previous poll to return a promise
          */
