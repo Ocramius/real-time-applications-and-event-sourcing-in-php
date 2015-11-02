@@ -12,10 +12,18 @@ if (strtolower($_SERVER['REQUEST_METHOD']) !== 'get') {
     exit(1);
 }
 
+$games = [
+    'abcdef',
+    'hijklm',
+];
+
+$gamesIndex = array_search(
+    $_GET['lastGameId'] ?? null,
+    $games,
+    true
+);
+
 echo json_encode([
     'success' => true,
-    'games'   => [
-        'abcdef',
-        'hijklm',
-    ],
+    'games'   => array_slice($games, false === $gamesIndex ? 0 : $gamesIndex + 1),
 ]);
