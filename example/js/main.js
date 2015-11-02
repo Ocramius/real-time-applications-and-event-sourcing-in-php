@@ -30,6 +30,7 @@
         });
     });
 
+    // replace with web socket/message queue:
     (function () {
         var lastGameId = null;
 
