@@ -2,10 +2,11 @@
     "use strict";
 
     var bowlingPlayground = document.querySelector('#bowling-playground'),
+        activeGames       = document.querySelector('#active-games'),
         createGame        = bowlingPlayground.querySelector('#new-game'),
         commandBus        = 'http://localhost:8888/command-bus.php',
         getNewGames       = 'http://localhost:8888/get-new-games.php',
-        pollInterval      = 1000,
+        pollInterval      = 2000,
 
         /**
          * creates a poll that isn't interval based, but waits for the previous poll to return a promise
@@ -42,7 +43,7 @@
                 })
                 .then(function (responseJson) {
                     responseJson.games.forEach(function (gameId) {
-                        bowlingPlayground.dispatchEvent(new CustomEvent('GameStarted', {gameId: gameId}));
+                        bowlingPlayground.dispatchEvent(new CustomEvent('GameStarted', {detail: {gameId: gameId}}));
 
                         lastGameId = gameId;
                     })
@@ -50,4 +51,13 @@
 
         }, pollInterval);
     }());
+
+    bowlingPlayground.addEventListener('GameStarted', function (gameStarted) {
+        console.log(gameStarted);
+        var gameLi = document.createElement('li');
+
+        gameLi.innerHTML = '<p class="game-title">Game #' + gameStarted.detail.gameId + '</p><ol class="throws"></ol></p>';
+
+        activeGames.appendChild(gameLi);
+    });
 }(window, document, fetch, CustomEvent));
