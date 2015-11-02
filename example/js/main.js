@@ -4,6 +4,9 @@
     var bowlingPlayground = document.querySelector('#bowling-playground'),
         createGame        = bowlingPlayground.querySelector('#new-game'),
         commandBus        = 'http://localhost:8888/command-bus.php',
+        getNewGames       = 'http://localhost:8888/get-new-games.php',
+        pollInterval      = 1000,
+
         /**
          * creates a poll that isn't interval based, but waits for the previous poll to return a promise
          */
@@ -26,5 +29,25 @@
         });
     });
 
-    bowlingPlayground.dispatchEvent(new CustomEvent(''));
+    (function () {
+        var lastGameId = null;
+
+        createPoll(function () {
+            return fetch(getNewGames + (lastGameId ? '?lastGameId=' + lastGameId : ''), {
+                method: 'get',
+                cache:  'no-cache'
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (responseJson) {
+                    responseJson.games.forEach(function (gameId) {
+                        bowlingPlayground.dispatchEvent(new CustomEvent('GameStarted', {gameId: gameId}));
+
+                        lastGameId = gameId;
+                    })
+                });
+
+        }, pollInterval);
+    }());
 }(window, document, fetch, CustomEvent));
