@@ -76,13 +76,13 @@ final class Game
             $maxScore -= $lastShot->getPinsHit();
         }
 
-        if (rand(0, $maxScore) < 1) {
+        if (rand(0, 10) < 1) {
             $this->recordThrow(ThrowRecorded::fromGameIdAndFoul($this->id));
 
             return;
         }
 
-        $this->recordThrow(ThrowRecorded::fromGameIdAndPinsHit($this->id, rand(0, 10)));
+        $this->recordThrow(ThrowRecorded::fromGameIdAndPinsHit($this->id, rand(0, $maxScore)));
     }
 
     public function getRecordedDomainEvents() : array
