@@ -22,13 +22,6 @@ final class Game
     {
     }
 
-    /**
-     * @return void
-     */
-    public function throwBall()
-    {
-    }
-
     public static function newGame()
     {
         $instance = new self();
@@ -36,5 +29,12 @@ final class Game
         $instance->id = Uuid::uuid4();
 
         return $instance;
+    }
+
+    /**
+     * @return void
+     */
+    public function throwBall()
+    {
     }
 }
