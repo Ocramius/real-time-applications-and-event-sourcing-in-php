@@ -8,7 +8,11 @@ final class StartNewGame
     {
     }
 
-    public static function fromPostData(array $postData)
+    /**
+     * @return self
+     */
+    public static function fromPostData()
     {
+        return new self();
     }
 }
