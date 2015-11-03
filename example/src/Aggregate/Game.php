@@ -76,23 +76,13 @@ final class Game
      */
     private function recordThrow(ThrowRecorded $throw)
     {
-        $lastEvent = end($this->gameEvents);
-
         $this->gameEvents[] = $throw;
 
         if ($throw->isIsFoul()) {
             $this->gameEvents[] = FoulRecorded::fromGameId($this->id);
         }
 
-        if (
-            10 === $throw->getPinsHit()
-            && (
-                $lastEvent instanceof GameStarted
-                || $lastEvent instanceof FrameCompleted
-                || $lastEvent instanceof SpareRecorded
-                || $lastEvent instanceof StrikeRecorded
-            )
-        ) {
+        if (10 === $throw->getPinsHit() && $this->isPossibleStrikeCandidateShot()) {
             $this->gameEvents[] = StrikeRecorded::fromGameId($this->id);
         }
 
@@ -104,6 +94,25 @@ final class Game
         if ($this->getEventsByType(GameCompleted::class)) {
             throw new \DomainException('Cannot throw in a completed game!');
         }
+    }
+
+    /**
+     * Whether the current shot is the first one of the current frame or not
+     */
+    private function isPossibleStrikeCandidateShot() : bool
+    {
+        $throwsSoFar     = $this->countEventsByType(ThrowRecorded::class);
+        $strikesSoFar    = $this->countEventsByType(StrikeRecorded::class);
+        $framesCompleted = $this->countEventsByType(FrameCompleted::class);
+        $spareOrLessFrames = $framesCompleted - $strikesSoFar;
+        $spareOrLessThrows = $throwsSoFar - $strikesSoFar;
+
+        return ! (($spareOrLessThrows - $spareOrLessFrames) % 2);
+    }
+
+    private function countEventsByType(string $className) : int
+    {
+        return count($this->getEventsByType($className));
     }
 
     private function getEventsByType(string $className) : array
