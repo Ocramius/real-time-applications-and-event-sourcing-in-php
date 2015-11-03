@@ -86,6 +86,9 @@ final class Game
 
         if ($throw->hasStrikeScore() && ! $frameShotIndex) {
             $this->gameEvents[] = StrikeRecorded::fromGameId($this->id);
+            $this->gameEvents[] = FrameCompleted::fromGameId($this->id);
+
+            return;
         }
 
         // @TODO spares logic here
