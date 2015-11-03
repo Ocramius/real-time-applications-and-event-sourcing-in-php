@@ -3,5 +3,8 @@
         "psr-4": {
             "ESBowling\\": "src/"
         }
+    },
+    "require": {
+        "ramsey/uuid": "^3.0"
     }
 }
