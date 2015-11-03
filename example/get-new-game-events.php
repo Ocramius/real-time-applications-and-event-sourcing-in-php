@@ -33,7 +33,7 @@ use Ramsey\Uuid\Uuid;
     $extractEventProperties = function ($event) : array {
         $data = [];
 
-        foreach ((new \ReflectionClass($event))->getProperties() as $key => $property) {
+        foreach ((new \ReflectionClass($event))->getProperties() as $property) {
             $property->setAccessible(true);
 
             $value = $property->getValue($event);
@@ -42,7 +42,7 @@ use Ramsey\Uuid\Uuid;
                 $value = $value->toString();
             }
 
-            $data[$key] = $value;
+            $data[$property->getName()] = $value;
         }
 
         return $data;
