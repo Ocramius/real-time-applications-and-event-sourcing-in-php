@@ -1,4 +1,4 @@
-(function (window, document, fetch, CustomEvent) {
+(function (window, document, fetch, CustomEvent, FormData) {
     "use strict";
 
     var bowlingPlayground = document.querySelector('#bowling-playground'),
@@ -25,8 +25,11 @@
 
     createGame.addEventListener('click', function () {
         fetch(commandBus, {
-            method: 'post',
-            body: 'command=NewGame'
+            method:  'post',
+            body:    'command=NewGame',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
         });
     });
 
@@ -61,4 +64,4 @@
 
         activeGames.appendChild(gameLi);
     });
-}(window, document, fetch, CustomEvent));
+}(window, document, fetch, CustomEvent, FormData));
