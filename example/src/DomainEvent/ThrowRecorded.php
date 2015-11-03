@@ -61,6 +61,14 @@ final class ThrowRecorded implements GameEventInterface
     }
 
     /**
+     * @return bool
+     */
+    public function hasStrikeScore()
+    {
+        return 10 === $this->pinsHit;
+    }
+
+    /**
      * @return boolean
      */
     public function isIsFoul()

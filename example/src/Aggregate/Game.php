@@ -82,7 +82,7 @@ final class Game
             $this->gameEvents[] = FoulRecorded::fromGameId($this->id);
         }
 
-        if (10 === $throw->getPinsHit() && $this->isPossibleStrikeCandidateShot()) {
+        if ($throw->hasStrikeScore() && $this->isPossibleStrikeCandidateShot()) {
             $this->gameEvents[] = StrikeRecorded::fromGameId($this->id);
         }
 
