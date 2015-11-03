@@ -51,4 +51,20 @@ final class ThrowRecorded implements GameEventInterface
     {
         return $this->gameId;
     }
+
+    /**
+     * @return int
+     */
+    public function getPinsHit()
+    {
+        return $this->pinsHit;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsFoul()
+    {
+        return $this->isFoul;
+    }
 }
