@@ -1,4 +1,4 @@
-(function (window, document, fetch, CustomEvent, FormData) {
+(function (window, document, fetch, CustomEvent) {
     "use strict";
 
     var bowlingPlayground = document.querySelector('#bowling-playground'),
@@ -102,4 +102,4 @@
 
         activeGames.appendChild(gameLi);
     });
-}(window, document, fetch, CustomEvent, FormData));
+}(window, document, fetch, CustomEvent));
