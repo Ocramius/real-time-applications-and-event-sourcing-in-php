@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace ESBowling\Repository;
 
 use ESBowling\Aggregate\Game;
+use ESBowling\DomainEvent\GameEventInterface;
+use ESBowling\DomainEvent\GameStarted;
 use Ramsey\Uuid\UuidInterface as Uuid;
 
 final class GameRepository
