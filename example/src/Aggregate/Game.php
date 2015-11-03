@@ -71,16 +71,22 @@ final class Game
         $this->recordThrow(ThrowRecorded::fromGameIdAndPinsHit($this->id, rand(0, 10)));
     }
 
+    public function getRecordedDomainEvents()
+    {
+        return $this->gameEvents;
+    }
+
     /**
      * note: functional reactive frameworks make this much easier:
      */
     private function recordThrow(ThrowRecorded $throw)
     {
         $frameShotIndex = $this->frameShotIndex();
+        $lastShot       = $this->getLastEventByType(ThrowRecorded::class);
 
         $this->gameEvents[] = $throw;
 
-        if ($throw->isIsFoul()) {
+        if ($throw->getIsFoul()) {
             $this->gameEvents[] = FoulRecorded::fromGameId($this->id);
         }
 
@@ -88,16 +94,34 @@ final class Game
             $this->gameEvents[] = StrikeRecorded::fromGameId($this->id);
             $this->gameEvents[] = FrameCompleted::fromGameId($this->id);
 
+            $this->attemptEndingGame();
+
             return;
         }
 
-        // @TODO spares logic here
+        if (
+            $frameShotIndex
+            && $lastShot instanceof ThrowRecorded
+            && (10 === ($lastShot->getPinsHit() + $throw->getPinsHit()))
+        ) {
+            $this->gameEvents[] = SpareRecorded::fromGameId($this->id);
+        }
 
         if ($frameShotIndex && 9 === $this->countEventsByType(FrameCompleted::class)) {
             $this->gameEvents[] = FrameCompleted::fromGameId($this->id);
         }
 
+        $this->attemptEndingGame();
         // note: we completely skip the rules of throws 11 and 12, because they are a mess.
+    }
+
+    private function attemptEndingGame()
+    {
+        if (10 !== $this->countEventsByType(FrameCompleted::class)) {
+            return;
+        }
+
+        $this->gameEvents[] = GameCompleted::fromGameId($this->id);
     }
 
     private function assertCanThrow()
@@ -124,6 +148,11 @@ final class Game
     private function countEventsByType(string $className) : int
     {
         return count($this->getEventsByType($className));
+    }
+
+    private function getLastEventByType(string $className)
+    {
+        return end($this->getEventsByType($className)) ?: null;
     }
 
     private function getEventsByType(string $className) : array
