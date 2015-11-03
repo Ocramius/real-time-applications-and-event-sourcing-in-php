@@ -34,6 +34,21 @@ final class GameRepository
         return Game::fromEvents($this->getGameEvents($gameId));
     }
 
+    public function getAllGameStartedEvents() : array
+    {
+        return array_values(array_filter(
+            $this->loadAllEvents(),
+            function ($event) {
+                return $event instanceof GameStarted;
+            }
+        ));
+    }
+
+    /**
+     * @param Uuid $gameId
+     *
+     * @return GameEventInterface[]
+     */
     private function getGameEvents(Uuid $gameId) : array
     {
         return array_values(array_filter(
