@@ -39,7 +39,7 @@ final class Game
         return $instance;
     }
 
-    public static function fromEvents(array $events)
+    public static function fromEvents(array $events) : self
     {
         $firstEvent = reset($events);
 
@@ -53,6 +53,11 @@ final class Game
         $instance->gameEvents = array_values($events);
 
         return $instance;
+    }
+
+    public function getId() : Uuid
+    {
+        return $this->id;
     }
 
     /**
@@ -71,7 +76,7 @@ final class Game
         $this->recordThrow(ThrowRecorded::fromGameIdAndPinsHit($this->id, rand(0, 10)));
     }
 
-    public function getRecordedDomainEvents()
+    public function getRecordedDomainEvents() : array
     {
         return $this->gameEvents;
     }
