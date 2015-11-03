@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ESBowling\Aggregate;
 
+use ESBowling\DomainEvent\GameCompleted;
 use ESBowling\DomainEvent\GameStarted;
 use ESBowling\DomainEvent\ThrowRecorded;
 use Ramsey\Uuid\Uuid;
@@ -68,6 +69,13 @@ final class Game
 
     private function assertCanThrow()
     {
-
+        if (! array_filter(
+            $this->gameEvents,
+            function ($event) {
+                return $event instanceof GameCompleted;
+            }
+        )) {
+            throw new \DomainException('Cannot throw in a completed game!');
+        }
     }
 }
