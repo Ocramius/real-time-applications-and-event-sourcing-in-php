@@ -57,7 +57,7 @@ final class GameRepository
 
         foreach ($allGameStartedEvents as $gameStartedIdx => $gameStarted) {
             if ($gameStarted->getGameId()->equals($gameId)) {
-                $index = $gameStartedIdx;
+                $index = $gameStartedIdx + 1;
 
                 break;
             }
