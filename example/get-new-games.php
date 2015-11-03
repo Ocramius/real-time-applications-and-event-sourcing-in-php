@@ -1,5 +1,8 @@
 <?php
 
+use ESBowling\DomainEvent\GameStarted;
+use Ramsey\Uuid\Uuid;
+
 (function () {
     /* @var $repository \ESBowling\Repository\GameRepository */
     $repository = require __DIR__ . '/bootstrap-repository.php';
@@ -19,11 +22,11 @@
     echo json_encode([
         'success' => true,
         'games'   => array_values(array_map(
-            function (\ESBowling\DomainEvent\GameStarted $gameStarted) {
+            function (GameStarted $gameStarted) {
                 return $gameStarted->getGameId()->toString();
             },
             isset($_GET['lastGameId'])
-                ? $repository->getGameStartedEventsAfter(\Ramsey\Uuid\Uuid::fromString($_GET['lastGameId']))
+                ? $repository->getGameStartedEventsAfter(Uuid::fromString($_GET['lastGameId']))
                 : $repository->getAllGameStartedEvents()
         )),
     ]);
