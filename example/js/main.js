@@ -26,7 +26,7 @@
     createGame.addEventListener('click', function () {
         fetch(commandBus, {
             method:  'post',
-            body:    'command=NewGame',
+            body:    'command=StartNewGame',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
