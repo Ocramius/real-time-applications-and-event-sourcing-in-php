@@ -6,6 +6,7 @@
         createGame        = bowlingPlayground.querySelector('#new-game'),
         commandBus        = 'http://localhost:8888/command-bus.php',
         getNewGames       = 'http://localhost:8888/get-new-games.php',
+        getNewGameEvents  = 'http://localhost:8888/get-new-game-events.php',
         pollInterval      = 2000,
 
         /**
@@ -57,7 +58,8 @@
     }());
 
     bowlingPlayground.addEventListener('GameStarted', function (gameStarted) {
-        var gameLi = document.createElement('li');
+        var gameLi = document.createElement('li'),
+            offset = 0;
 
         gameLi.innerHTML = '<p class="game-title">' +
             '<input type="button" class="throw-ball" value="Throw Ball"/>' +
@@ -70,6 +72,24 @@
             .addEventListener('click', function () {
                 console.log(gameStarted.detail.gameId);
             });
+
+        createPoll(function () {
+            return fetch(getNewGameEvents + '?gameId=' + gameStarted.detail.gameId + '&offset=' + offset, {
+                method: 'get',
+                cache:  'no-cache'
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (responseJson) {
+                    responseJson.events.forEach(function (event) {
+                        gameLi.dispatchEvent(new CustomEvent('GameEvent', {detail: {event: event}}));
+
+                        offset += 1;
+                    })
+                });
+
+        }, pollInterval);
 
         activeGames.appendChild(gameLi);
     });
