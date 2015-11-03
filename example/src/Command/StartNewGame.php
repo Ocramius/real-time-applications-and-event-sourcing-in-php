@@ -1,6 +1,6 @@
 <?php
 
-namespace ESBowling;
+namespace ESBowling\Command;
 
 final class StartNewGame
 {
