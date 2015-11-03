@@ -34,6 +34,9 @@ final class GameRepository
         return Game::fromEvents($this->getGameEvents($gameId));
     }
 
+    /**
+     * @return GameStarted[]
+     */
     public function getAllGameStartedEvents() : array
     {
         return array_values(array_filter(
@@ -42,6 +45,23 @@ final class GameRepository
                 return $event instanceof GameStarted;
             }
         ));
+    }
+
+    public function getGameStartedEventsAfter(Uuid $gameId) : array
+    {
+        $allGameStartedEvents = $this->getAllGameStartedEvents();
+
+        $index = 0;
+
+        foreach ($allGameStartedEvents as $gameStartedIdx => $gameStarted) {
+            if ($gameStarted->getGameId()->equals($gameId)) {
+                $index = $gameStartedIdx;
+
+                break;
+            }
+        }
+
+        return array_values(array_slice($allGameStartedEvents, $index));
     }
 
     /**
