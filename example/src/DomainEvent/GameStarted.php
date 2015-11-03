@@ -25,4 +25,12 @@ final class GameStarted
 
         return $instance;
     }
+
+    /**
+     * @return Uuid
+     */
+    public function getGameId()
+    {
+        return $this->gameId;
+    }
 }
