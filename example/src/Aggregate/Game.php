@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ESBowling\Aggregate;
 
 use ESBowling\DomainEvent\GameStarted;
+use ESBowling\DomainEvent\ThrowRecorded;
 use Ramsey\Uuid\Uuid;
 
 final class Game
@@ -54,5 +55,19 @@ final class Game
      */
     public function throwBall()
     {
+        $this->assertCanThrow();
+
+        if (rand(0, 10) < 1) {
+            $this->gameEvents[] = ThrowRecorded::fromGameIdAndFoul($this->id);
+
+            return;
+        }
+
+        $this->gameEvents[] = ThrowRecorded::fromGameIdAndPinsHit($this->id, rand(0, 10));
+    }
+
+    private function assertCanThrow()
+    {
+
     }
 }
