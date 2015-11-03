@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ESBowling\DomainEvent;
 
-use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface as Uuid;
 
 final class ThrowRecorded implements GameEventInterface
 {

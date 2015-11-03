@@ -12,6 +12,7 @@ use ESBowling\DomainEvent\SpareRecorded;
 use ESBowling\DomainEvent\StrikeRecorded;
 use ESBowling\DomainEvent\ThrowRecorded;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 final class Game
 {
@@ -55,7 +56,7 @@ final class Game
         return $instance;
     }
 
-    public function getId() : Uuid
+    public function getId() : UuidInterface
     {
         return $this->id;
     }
