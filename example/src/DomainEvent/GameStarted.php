@@ -13,16 +13,6 @@ final class GameStarted
      */
     private $gameId;
 
-    /**
-     * @var int
-     */
-    private $pinsHit = 0;
-
-    /**
-     * @var bool
-     */
-    private $isFoul = false;
-
     private function __construct()
     {
     }
