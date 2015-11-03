@@ -59,23 +59,35 @@ final class Game
         $this->assertCanThrow();
 
         if (rand(0, 10) < 1) {
-            $this->gameEvents[] = ThrowRecorded::fromGameIdAndFoul($this->id);
+            $this->recordThrow(ThrowRecorded::fromGameIdAndFoul($this->id));
 
             return;
         }
 
-        $this->gameEvents[] = ThrowRecorded::fromGameIdAndPinsHit($this->id, rand(0, 10));
+        $this->recordThrow(ThrowRecorded::fromGameIdAndPinsHit($this->id, rand(0, 10)));
+    }
+
+    private function recordThrow(ThrowRecorded $recorded)
+    {
+        $this->gameEvents[] = $recorded;
+
+
     }
 
     private function assertCanThrow()
     {
-        if (! array_filter(
-            $this->gameEvents,
-            function ($event) {
-                return $event instanceof GameCompleted;
-            }
-        )) {
+        if ($this->getEventsByType(GameCompleted::class)) {
             throw new \DomainException('Cannot throw in a completed game!');
         }
+    }
+
+    private function getEventsByType(string $className) : array
+    {
+        return array_values(array_filter(
+            $this->gameEvents,
+            function ($event) use ($className) {
+                return $event instanceof $className;
+            }
+        ));
     }
 }
