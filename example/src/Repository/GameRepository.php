@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ESBowling\DomainEvent;
+namespace ESBowling\Repository;
 
 use ESBowling\Aggregate\Game;
 use Ramsey\Uuid\Uuid;
