@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace ESBowling\Aggregate;
 
+use ESBowling\DomainEvent\FoulRecorded;
+use ESBowling\DomainEvent\FrameCompleted;
 use ESBowling\DomainEvent\GameCompleted;
 use ESBowling\DomainEvent\GameStarted;
+use ESBowling\DomainEvent\SpareRecorded;
+use ESBowling\DomainEvent\StrikeRecorded;
 use ESBowling\DomainEvent\ThrowRecorded;
 use Ramsey\Uuid\Uuid;
 
@@ -67,11 +71,32 @@ final class Game
         $this->recordThrow(ThrowRecorded::fromGameIdAndPinsHit($this->id, rand(0, 10)));
     }
 
-    private function recordThrow(ThrowRecorded $recorded)
+    /**
+     * note: functional reactive frameworks make this much easier:
+     */
+    private function recordThrow(ThrowRecorded $throw)
     {
-        $this->gameEvents[] = $recorded;
+        $lastEvent = end($this->gameEvents);
 
+        $this->gameEvents[] = $throw;
 
+        if ($throw->isIsFoul()) {
+            $this->gameEvents[] = FoulRecorded::fromGameId($this->id);
+        }
+
+        if (
+            10 === $throw->getPinsHit()
+            && (
+                $lastEvent instanceof GameStarted
+                || $lastEvent instanceof FrameCompleted
+                || $lastEvent instanceof SpareRecorded
+                || $lastEvent instanceof StrikeRecorded
+            )
+        ) {
+            $this->gameEvents[] = StrikeRecorded::fromGameId($this->id);
+        }
+
+        // note: we completely skip the rules of throws 11 and 12, because they are a mess.
     }
 
     private function assertCanThrow()
