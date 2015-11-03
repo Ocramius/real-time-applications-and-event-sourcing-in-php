@@ -13,6 +13,11 @@ final class Game
      */
     private $id;
 
+    /**
+     * @var object[]
+     */
+    private $gameEvents = [];
+
     private function __construct()
     {
     }
