@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace ESBowling\Command;
 
-use Ramsey\Uuid\UuidInterface as Uuid;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 final class ThrowBall
 {
     /**
-     * @var Uuid
+     * @var UuidInterface
      */
     private $gameId;
 
@@ -29,5 +30,10 @@ final class ThrowBall
         $instance->gameId = Uuid::fromString($postData['gameId']);
 
         return $instance;
+    }
+
+    public function getGameId() : UuidInterface
+    {
+        return $this->gameId;
     }
 }
