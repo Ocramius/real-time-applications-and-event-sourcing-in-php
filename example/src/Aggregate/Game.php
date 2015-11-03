@@ -166,7 +166,9 @@ final class Game
 
     private function getLastEventByType(string $className)
     {
-        return end($this->getEventsByType($className)) ?: null;
+        $events = $this->getEventsByType($className);
+
+        return end($events) ?: null;
     }
 
     private function getEventsByType(string $className) : array
