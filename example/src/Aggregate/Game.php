@@ -88,6 +88,12 @@ final class Game
             $this->gameEvents[] = StrikeRecorded::fromGameId($this->id);
         }
 
+        // @TODO spares logic here
+
+        if (! ($isFirstFrameShot && 9 === $this->countEventsByType(FrameCompleted::class))) {
+            $this->gameEvents[] = FrameCompleted::fromGameId($this->id);
+        }
+
         // note: we completely skip the rules of throws 11 and 12, because they are a mess.
     }
 
@@ -109,6 +115,7 @@ final class Game
         $spareOrLessFrames = $framesCompleted - $strikesSoFar;
         $spareOrLessThrows = $throwsSoFar - $strikesSoFar;
 
+        // @TODO flawed: should instead pair each couple of throws with a frame, then remove
         return ! (($spareOrLessThrows - $spareOrLessFrames) % 2);
     }
 
