@@ -70,7 +70,13 @@
         gameLi
             .querySelector('.throw-ball')
             .addEventListener('click', function () {
-                console.log(gameStarted.detail.gameId);
+                fetch(commandBus, {
+                    method:  'post',
+                    body:    'command=ThrowBall&gameId=' + gameStarted.detail.gameId,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
             });
 
         createPoll(function () {
