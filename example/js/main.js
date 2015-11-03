@@ -60,10 +60,16 @@
         var gameLi = document.createElement('li');
 
         gameLi.innerHTML = '<p class="game-title">' +
-            '<input type="button" id="new-game" value="Throw Ball"/>' +
+            '<input type="button" class="throw-ball" value="Throw Ball"/>' +
             'Game #' +
             gameStarted.detail.gameId +
             '</p><ol class="throws"></ol></p>';
+
+        gameLi
+            .querySelector('.throw-ball')
+            .addEventListener('click', function () {
+                console.log(gameStarted.detail.gameId);
+            });
 
         activeGames.appendChild(gameLi);
     });
