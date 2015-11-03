@@ -76,7 +76,7 @@ final class Game
      */
     private function recordThrow(ThrowRecorded $throw)
     {
-        $isFirstFrameShot = $this->isFrameFirstShot();
+        $frameShotIndex = $this->frameShotIndex();
 
         $this->gameEvents[] = $throw;
 
@@ -84,13 +84,13 @@ final class Game
             $this->gameEvents[] = FoulRecorded::fromGameId($this->id);
         }
 
-        if ($throw->hasStrikeScore() && $isFirstFrameShot) {
+        if ($throw->hasStrikeScore() && ! $frameShotIndex) {
             $this->gameEvents[] = StrikeRecorded::fromGameId($this->id);
         }
 
         // @TODO spares logic here
 
-        if (! ($isFirstFrameShot && 9 === $this->countEventsByType(FrameCompleted::class))) {
+        if ($frameShotIndex && 9 === $this->countEventsByType(FrameCompleted::class)) {
             $this->gameEvents[] = FrameCompleted::fromGameId($this->id);
         }
 
@@ -105,9 +105,9 @@ final class Game
     }
 
     /**
-     * Whether the current shot is the first one of the current frame or not
+     * The index of this shot within the current frame
      */
-    private function isFrameFirstShot() : bool
+    private function frameShotIndex() : int
     {
         $throwsSoFar     = $this->countEventsByType(ThrowRecorded::class);
         $strikesSoFar    = $this->countEventsByType(StrikeRecorded::class);
@@ -115,8 +115,7 @@ final class Game
         $spareOrLessFrames = $framesCompleted - $strikesSoFar;
         $spareOrLessThrows = $throwsSoFar - $strikesSoFar;
 
-        // @TODO flawed: should instead pair each couple of throws with a frame, then remove
-        return ! (($spareOrLessThrows - $spareOrLessFrames) % 2);
+        return $spareOrLessThrows - $spareOrLessFrames * 2;
     }
 
     private function countEventsByType(string $className) : int
