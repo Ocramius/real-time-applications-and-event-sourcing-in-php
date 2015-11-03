@@ -65,7 +65,7 @@
             '<input type="button" class="throw-ball" value="Throw Ball"/>' +
             'Game #' +
             gameStarted.detail.gameId +
-            '</p><ol class="throws"></ol></p>';
+            '</p><ol class="game-events"></ol></p>';
 
         gameLi
             .querySelector('.throw-ball')
@@ -90,6 +90,15 @@
                 });
 
         }, pollInterval);
+
+        gameLi.addEventListener('GameEvent', function (gameEvent) {
+            var gameEventsOl = gameLi.querySelector('.game-events'),
+                eventLi    = document.createElement('li');
+
+            eventLi.innerHTML = JSON.stringify(gameEvent.detail.event);
+
+            gameEventsOl.appendChild(eventLi);
+        });
 
         activeGames.appendChild(gameLi);
     });
