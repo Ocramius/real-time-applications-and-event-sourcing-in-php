@@ -68,7 +68,15 @@ final class Game
     {
         $this->assertCanThrow();
 
-        if (rand(0, 10) < 1) {
+        $maxScore = 10;
+
+        if ($this->frameShotIndex()) {
+            /* @var $lastShot ThrowRecorded */
+            $lastShot  = $this->getLastEventByType(ThrowRecorded::class);
+            $maxScore -= $lastShot->getPinsHit();
+        }
+
+        if (rand(0, $maxScore) < 1) {
             $this->recordThrow(ThrowRecorded::fromGameIdAndFoul($this->id));
 
             return;
