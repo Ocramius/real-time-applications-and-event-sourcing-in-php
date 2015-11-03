@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ESBowling\Aggregate;
 
+use ESBowling\DomainEvent\GameStarted;
 use Ramsey\Uuid\Uuid;
 
 final class Game
@@ -26,7 +27,8 @@ final class Game
     {
         $instance = new self();
 
-        $instance->id = Uuid::uuid4();
+        $instance->id           = Uuid::uuid4();
+        $instance->gameEvents[] = GameStarted::fromGameId($instance->id);
 
         return $instance;
     }
