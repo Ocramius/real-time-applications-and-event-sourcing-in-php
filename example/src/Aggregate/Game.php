@@ -33,6 +33,22 @@ final class Game
         return $instance;
     }
 
+    public static function fromEvents(array $events)
+    {
+        $firstEvent = reset($events);
+
+        if (! $firstEvent instanceof GameStarted) {
+            throw new \UnexpectedValueException('The provided events don\'t start with the game start');
+        }
+
+        $instance = new self();
+
+        $instance->id         = $firstEvent->getGameId();
+        $instance->gameEvents = array_values($events);
+
+        return $instance;
+    }
+
     /**
      * @return void
      */
