@@ -76,13 +76,15 @@ final class Game
      */
     private function recordThrow(ThrowRecorded $throw)
     {
+        $isFirstFrameShot = $this->isFrameFirstShot();
+
         $this->gameEvents[] = $throw;
 
         if ($throw->isIsFoul()) {
             $this->gameEvents[] = FoulRecorded::fromGameId($this->id);
         }
 
-        if ($throw->hasStrikeScore() && $this->isPossibleStrikeCandidateShot()) {
+        if ($throw->hasStrikeScore() && $isFirstFrameShot) {
             $this->gameEvents[] = StrikeRecorded::fromGameId($this->id);
         }
 
@@ -99,7 +101,7 @@ final class Game
     /**
      * Whether the current shot is the first one of the current frame or not
      */
-    private function isPossibleStrikeCandidateShot() : bool
+    private function isFrameFirstShot() : bool
     {
         $throwsSoFar     = $this->countEventsByType(ThrowRecorded::class);
         $strikesSoFar    = $this->countEventsByType(StrikeRecorded::class);
