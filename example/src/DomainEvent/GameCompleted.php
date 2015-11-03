@@ -6,7 +6,7 @@ namespace ESBowling\DomainEvent;
 
 use Ramsey\Uuid\Uuid;
 
-final class GameCompleted
+final class GameCompleted implements GameEventInterface
 {
     /**
      * @var Uuid
@@ -24,5 +24,10 @@ final class GameCompleted
         $instance->gameId = $gameId;
 
         return $instance;
+    }
+
+    public function getGameId() : Uuid
+    {
+        return $this->gameId;
     }
 }

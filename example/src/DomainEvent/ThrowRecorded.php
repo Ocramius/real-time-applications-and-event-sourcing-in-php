@@ -6,7 +6,7 @@ namespace ESBowling\DomainEvent;
 
 use Ramsey\Uuid\Uuid;
 
-final class ThrowRecorded
+final class ThrowRecorded implements GameEventInterface
 {
     /**
      * @var Uuid
@@ -45,5 +45,10 @@ final class ThrowRecorded
         $instance->isFoul = true;
 
         return $instance;
+    }
+
+    public function getGameId() : Uuid
+    {
+        return $this->gameId;
     }
 }
