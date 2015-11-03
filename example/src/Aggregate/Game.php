@@ -107,7 +107,7 @@ final class Game
             $this->gameEvents[] = SpareRecorded::fromGameId($this->id);
         }
 
-        if ($frameShotIndex && 9 === $this->countEventsByType(FrameCompleted::class)) {
+        if ($frameShotIndex) {
             $this->gameEvents[] = FrameCompleted::fromGameId($this->id);
         }
 
