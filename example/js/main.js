@@ -57,10 +57,13 @@
     }());
 
     bowlingPlayground.addEventListener('GameStarted', function (gameStarted) {
-        console.log(gameStarted);
         var gameLi = document.createElement('li');
 
-        gameLi.innerHTML = '<p class="game-title">Game #' + gameStarted.detail.gameId + '</p><ol class="throws"></ol></p>';
+        gameLi.innerHTML = '<p class="game-title">' +
+            '<input type="button" id="new-game" value="Throw Ball"/>' +
+            'Game #' +
+            gameStarted.detail.gameId +
+            '</p><ol class="throws"></ol></p>';
 
         activeGames.appendChild(gameLi);
     });
