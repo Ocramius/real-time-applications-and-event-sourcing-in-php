@@ -29,6 +29,11 @@ final class GameRepository
         file_put_contents($this->eventStoreFile, serialize(array_merge($this->loadAllEvents(), $eventsToStore)));
     }
 
+    public function get(Uuid $gameId) : Game
+    {
+        return Game::fromEvents($this->getGameEvents($gameId));
+    }
+
     private function getGameEvents(Uuid $gameId) : array
     {
         return array_values(array_filter(
