@@ -26,6 +26,7 @@
     "real-time-event-sourcing/event-sourcing-example/event-sourced-counter.html",
 
     "real-time-event-sourcing/what-are-we-building/what-will-we-build.html",
+    "real-time-event-sourcing/what-are-we-building/an-event-sourced-cqrs-application.html",
 
     "outro/thanks.html"
 ]
