@@ -1,0 +1,21 @@
+<code><pre data-trim>
+class AnEventSourcedCounter
+{
+    private $events;
+
+    public function increment()
+    {
+        $this->events = new CounterWasIncremented(1, new \DateTime('now'), whoami());
+    }
+
+    public function getCurrentCount() : int
+    {
+        return count(array_filter(
+            function ($event) {
+                return $event instanceof CounterWasIncremented;
+            },
+            $this->events
+        ));
+    }
+}
+</pre></code>
