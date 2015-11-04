@@ -17,8 +17,9 @@
     "real-time-event-sourcing/intro/what-is-a-domain-event-question.html",
     "real-time-event-sourcing/intro/what-is-a-domain-event.html",
     "real-time-event-sourcing/intro/any-state-can-be-computed-from-previous-state-transitions.html",
-    "real-time-event-sourcing/intro/what-event-sourcing-question.html",
-    "real-time-event-sourcing/intro/what-event-sourcing.html",
+    "real-time-event-sourcing/intro/what-is-event-sourcing-question.html",
+    "real-time-event-sourcing/intro/what-is-event-sourcing.html",
+    "real-time-event-sourcing/intro/state-is-cacheable.html",
     "real-time-event-sourcing/event-sourcing-example/old-style-counter.html",
     "real-time-event-sourcing/event-sourcing-example/event-sourced-counter.html",
 
