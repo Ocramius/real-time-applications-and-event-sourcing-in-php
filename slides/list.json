@@ -20,9 +20,12 @@
     "real-time-event-sourcing/intro/what-is-event-sourcing-question.html",
     "real-time-event-sourcing/intro/what-is-event-sourcing.html",
     "real-time-event-sourcing/intro/state-is-cacheable.html",
+
     "real-time-event-sourcing/event-sourcing-example/old-style-counter.html",
     "real-time-event-sourcing/event-sourcing-example/old-style-counter-limitations.html",
     "real-time-event-sourcing/event-sourcing-example/event-sourced-counter.html",
+
+    "real-time-event-sourcing/what-are-we-building/what-will-we-build.html",
 
     "outro/thanks.html"
 ]
