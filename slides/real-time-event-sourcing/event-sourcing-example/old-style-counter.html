@@ -1,11 +1,16 @@
 <code><pre data-trim>
-class ACounter
+class ATraditionalCounter
 {
     private $count = 0;
 
     public function increment()
     {
         $this->count += 1;
+    }
+
+    public function getCurrentCount() : int
+    {
+        return $this->count;
     }
 }
 </pre></code>
