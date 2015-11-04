@@ -14,6 +14,8 @@
     "real-time-event-sourcing/intro/what-is-an-event-question.html",
     "real-time-event-sourcing/intro/what-is-an-event.html",
     "real-time-event-sourcing/intro/the-only-constant-is-change.html",
+    "real-time-event-sourcing/intro/what-is-a-domain-event-question.html",
+    "real-time-event-sourcing/intro/what-is-a-domain-event.html",
     "real-time-event-sourcing/intro/what-event-sourcing.html",
     "real-time-event-sourcing/event-sourcing-example/old-style-counter.html",
     "real-time-event-sourcing/event-sourcing-example/event-sourced-counter.html",
